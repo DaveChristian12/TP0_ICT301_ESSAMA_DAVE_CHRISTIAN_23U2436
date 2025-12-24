@@ -1,0 +1,79 @@
+
+package c.solid.lsp.good;
+
+// Tout fichier unique : tout dans le même fichier (public class = la dernière)
+
+interface Shape {
+    int getArea();
+}
+
+class Rectangle implements Shape {
+    protected int width;
+    protected int height;
+
+    public Rectangle() {
+    }
+
+    public Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
+    public int getArea() {
+        return width * height;
+    }
+}
+
+class Square implements Shape {
+    private int side;
+
+    public Square() {
+    }
+
+    public Square(int side) {
+        this.side = side;
+    }
+
+    public void setSide(int side) {
+        this.side = side;
+    }
+
+    @Override
+    public int getArea() {
+        return side * side;
+    }
+}
+
+public class MainLspGood {
+    // Méthode de test qui attend n'importe quelle forme
+    public static void testShape(Shape shape) {
+        System.out.println("Aire attendue = " + shape.getArea());
+    }
+
+    public static void main(String[] args) {
+        Rectangle rectangle = new Rectangle(5, 4);
+        System.out.println("Aire du Rectangle = " + rectangle.getArea()); // 20
+
+        Square square = new Square();
+        square.setSide(5);
+        System.out.println("Aire du Carré = " + square.getArea()); // 25
+
+        // Substitution correcte : on peut passer n'importe quelle Shape
+        Shape rect = new Rectangle(6, 3);
+        Shape sq = new Square(4);
+
+        testShape(rect); // 18
+        testShape(sq);   // 16
+
+        // Plus de surprise : même si on manipule via Shape, le comportement reste cohérent
+    }
+}

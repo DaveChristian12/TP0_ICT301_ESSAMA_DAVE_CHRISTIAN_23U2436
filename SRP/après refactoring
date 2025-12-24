@@ -1,0 +1,67 @@
+package ict301.solid.srp.good;
+
+// 1. La classe Book ne gère QUE les données du livre (entité pure)
+public class Book {
+    private final String title;
+    private final String author;
+    private final String content;
+
+    public Book(String title, String author, String content) {
+        this.title = title;
+        this.author = author;
+        this.content = content;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getContent() {
+        return content;
+    }
+}
+
+// 2. Responsabilité d'affichage (présentation)
+public class BookPrinter {
+    public void printToScreen(Book book) {
+        System.out.println("Titre  : " + book.getTitle());
+        System.out.println("Auteur : " + book.getAuthor());
+        System.out.println("Contenu: " + book.getContent());
+    }
+}
+// 3. Responsabilité de persistance
+public class BookRepository {
+    public void saveToDatabase(Book book) {
+        System.out.println("Sauvegarde du livre \"" + book.getTitle() + "\" en base de données...");
+        // Ici on pourrait appeler une vraie DAO, JPA, JDBC, etc.
+    }
+}
+// 4. Responsabilité métier : gestion de l'emprunt
+public class BookLoanService {
+    public void emprunter(Book book, String lecteur) {
+        System.out.println("Emprunt du livre \"" + book.getTitle() + "\" par " + lecteur);
+        // Logique supplémentaire : vérifier disponibilité, date de retour, etc.
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Book book = new Book("Clean Code", "Robert C. Martin", "Un excellent livre sur les bonnes pratiques...");
+
+        // Affichage
+        BookPrinter printer = new BookPrinter();
+        printer.printToScreen(book);
+
+        // Persistance
+        BookRepository repository = new BookRepository();
+        repository.saveToDatabase(book);
+
+        // Emprunt
+        BookLoanService loanService = new BookLoanService();
+        loanService.emprunter(book, "Dave Christian");
+    }
+}

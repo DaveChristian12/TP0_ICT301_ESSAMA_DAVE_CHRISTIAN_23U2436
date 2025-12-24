@@ -1,0 +1,59 @@
+
+package ict301.solid.isp.good;
+
+// Interface spécifique : ceux qui travaillent
+interface Workable {
+    void work();
+}
+
+// Interface spécifique : ceux qui mangent
+interface Eatable {
+    void eat();
+}
+
+// Les humains font les deux → implémentent les deux interfaces
+class HumanWorker implements Workable, Eatable {
+    @Override
+    public void work() {
+        System.out.println("Les humains travaillent");
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("Les humains mangent");
+    }
+}
+
+// Les robots ne font que travailler → implémentent seulement Workable
+class RobotWorker implements Workable {
+    @Override
+    public void work() {
+        System.out.println("Les Robots travaillent sans fatigue");
+    }
+    // Pas de méthode eat() → plus d'exception forcée !
+}
+
+// Exemple d'utilisation
+public class MainIspGood {
+    // Méthode qui ne s'intéresse qu'au travail
+    public static void makeWork(Workable worker) {
+        worker.work();
+    }
+
+    // Méthode qui ne s'intéresse qu'à manger
+    public static void makeEat(Eatable eater) {
+        eater.eat();
+    }
+
+    public static void main(String[] args) {
+        Workable human = new HumanWorker();
+        Workable robot = new RobotWorker();
+        Eatable humanEater = new HumanWorker();
+
+        makeWork(human);  // OK
+        makeWork(robot);  // OK
+
+        makeEat(humanEater);  // OK
+        // makeEat(robot);   // Ne compile même pas → erreur détectée à la compilation !
+    }
+}

@@ -1,0 +1,59 @@
+package ict301.solid.ocp.good;
+
+// Interface que toutes les formes doivent implémenter
+public interface Shape {
+    double calculateArea();
+}
+// Rectangle
+public class Rectangle implements Shape {
+    private double width;
+    private double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
+
+    @Override
+    public double calculateArea() {
+        return width * height;
+    }
+}
+// Circle
+public class Circle implements Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() { return radius; }
+
+    @Override
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+public class AreaCalculator {
+    public double calculateArea(Shape shape) {
+        return shape.calculateArea();  // Polymorphisme !
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape rectangle = new Rectangle(5, 4);
+        Shape circle = new Circle(3);
+
+        AreaCalculator calculator = new AreaCalculator();
+
+        System.out.println("Aire rectangle : " + calculator.calculateArea(rectangle)); // 20.0
+        System.out.println("Aire cercle    : " + calculator.calculateArea(circle));    // ≈28.27
+
+        Shape[] shapes = {rectangle, circle, new Rectangle(10, 2)};
+        System.out.println("Aire totale    : " + calculator.calculateTotalArea(shapes));
+    }
+}

@@ -1,0 +1,51 @@
+package ict301.solid.dip.good;
+
+// Abstraction : ce dont OrderProcessor a besoin
+interface Database {
+    void save(String data);
+}
+
+// Implémentation concrète 1 : MySQL
+class MySQLDatabase implements Database {
+    @Override
+    public void save(String data) {
+        System.out.println("Saving to MySQL: " + data);
+    }
+}
+
+// Implémentation concrète 2 : exemple d'une autre base (pour montrer l'extensibilité)
+class PostgreSQLDatabase implements Database {
+    @Override
+    public void save(String data) {
+        System.out.println("Saving to PostgreSQL: " + data);
+    }
+}
+
+// Classe de haut niveau : dépend maintenant d'une abstraction
+class OrderProcessor {
+    private final Database database;  // Dépendance via interface
+
+    // Injection par constructeur (meilleure pratique)
+    public OrderProcessor(Database database) {
+        this.database = database;
+    }
+
+    public void processOrder(String order) {
+        database.save(order);
+    }
+}
+
+// Classe principale avec exemple d'utilisation
+public class MainDipGood {
+    public static void main(String[] args) {
+        // On choisit l'implémentation au moment de l'utilisation
+        Database mysql = new MySQLDatabase();
+        OrderProcessor processor1 = new OrderProcessor(mysql);
+        processor1.processOrder("Commande client #123");
+
+        // Facile de changer pour une autre base sans toucher à OrderProcessor !
+        Database postgres = new PostgreSQLDatabase();
+        OrderProcessor processor2 = new OrderProcessor(postgres);
+        processor2.processOrder("Commande client #456");
+    }
+}
