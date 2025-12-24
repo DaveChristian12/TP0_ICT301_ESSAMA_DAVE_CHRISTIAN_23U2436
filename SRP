@@ -33,7 +33,7 @@ public class Main {
 
 package solid.examples;
 
-// Interface commune
+
 public interface PaymentProcessor {
     void process(double amount);
     String getType(); 
@@ -89,3 +89,4 @@ class CryptoProcessor implements PaymentProcessor {
         return "crypto";
     }
 }
+
